@@ -1,0 +1,19 @@
+.login-container {
+  width: 300px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.register-link {
+  margin-top: 10px;
+  font-size: 0.9em;
+}
+
+.register-link a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.register-link a:hover {
+  text-decoration: underline;
+}
