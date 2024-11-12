@@ -1,5 +1,6 @@
 package com.example.taskmanagerservice.controller;
 
+import com.example.taskmanagerservice.DTO.TacheDTO;
 import com.example.taskmanagerservice.entity.Tache;
 import com.example.taskmanagerservice.entity.Utilisateur;
 import com.example.taskmanagerservice.service.TacheService;
@@ -27,9 +28,9 @@ public class TacheController {
     }
 
     @GetMapping("/taches")
-    public ResponseEntity<List<Tache>> getTaches(){
+    public ResponseEntity<List<TacheDTO>> getTaches(){
         try {
-            List<Tache> taches = tacheService.getTaches();
+            List<TacheDTO> taches = tacheService.getTaches();
             return new ResponseEntity<>(taches, HttpStatus.OK);
         }catch (RuntimeException e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -37,9 +38,9 @@ public class TacheController {
     }
 
     @GetMapping("/tache/{id}")
-    public ResponseEntity<Tache> getTache(@PathVariable Long id){
+    public ResponseEntity<TacheDTO> getTache(@PathVariable Long id){
         try {
-            Tache tache = tacheService.getTache(id);
+            TacheDTO tache = tacheService.getTache(id);
             return new ResponseEntity<>(tache, HttpStatus.OK);
         }catch (RuntimeException e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -47,9 +48,9 @@ public class TacheController {
     }
 
     @PostMapping("/tache")
-    public ResponseEntity<Tache> ajouterTache(@RequestBody Tache tache){
+    public ResponseEntity<TacheDTO> ajouterTache(@RequestBody TacheDTO tache){
         try {
-            Tache newTache = tacheService.ajouterTache(tache);
+            TacheDTO newTache = tacheService.ajouterTache(tache);
             return new ResponseEntity<>(newTache, HttpStatus.OK);
         }catch (RuntimeException e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -77,9 +78,9 @@ public class TacheController {
     }}
 
     @PutMapping("/tache/{id}")
-    public ResponseEntity<Tache> updateTache(@PathVariable Long id, @RequestBody Tache tache){
+    public ResponseEntity<TacheDTO> updateTache(@PathVariable Long id, @RequestBody TacheDTO tache){
         try {
-            Tache newTache = tacheService.updateTache(id, tache);
+            TacheDTO newTache = tacheService.updateTache(id, tache);
             return new ResponseEntity<>(newTache,HttpStatus.OK);
         }catch (RuntimeException e){
             throw new RuntimeException("erreur lors de l'ajout : {}",e);
