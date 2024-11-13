@@ -1,6 +1,7 @@
 package com.example.taskmanagerservice.controller;
 
 
+import com.example.taskmanagerservice.DTO.UtilisateurDTO;
 import com.example.taskmanagerservice.entity.Utilisateur;
 import com.example.taskmanagerservice.service.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ public class RegisterController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody Utilisateur utilisateur){
+    public ResponseEntity<?> registerUser(@RequestBody UtilisateurDTO utilisateur){
         if(utilisateurService.getUtilisateurByEmail(utilisateur.getEmail())!=null){
             return ResponseEntity.badRequest().body("L'email est déjà utilisé.");
         }else {

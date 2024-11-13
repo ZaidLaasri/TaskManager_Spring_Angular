@@ -2,10 +2,10 @@ package com.example.taskmanagerservice.service;
 
 import com.example.taskmanagerservice.DTO.TacheDTO;
 import com.example.taskmanagerservice.Mapper.TacheMapper;
+import com.example.taskmanagerservice.Mapper.UtilisateurMapper;
 import com.example.taskmanagerservice.entity.Tache;
 import com.example.taskmanagerservice.entity.Utilisateur;
 import com.example.taskmanagerservice.repository.TacheRepository;
-import com.example.taskmanagerservice.repository.UtilisateurRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,12 +22,15 @@ public class TacheService {
     private final TacheRepository tacheRepository;
     private final UtilisateurService utilisateurService;
     private final TacheMapper tacheMapper;
+    private final UtilisateurMapper utilisateurMapper;
+
 
     @Autowired
-    public TacheService(TacheRepository tacheRepository, UtilisateurService utilisateurService, TacheMapper tacheMapper) {
+    public TacheService(TacheRepository tacheRepository, UtilisateurService utilisateurService, TacheMapper tacheMapper, UtilisateurMapper utilisateurMapper) {
         this.tacheRepository = tacheRepository;
         this.utilisateurService = utilisateurService;
         this.tacheMapper = tacheMapper;
+        this.utilisateurMapper = utilisateurMapper;
     }
 
     public TacheDTO getTache(long id) {
@@ -57,7 +60,7 @@ public class TacheService {
                 .orElseThrow(() -> new RuntimeException("Tâche inexistante avec ID : " + id));
 
         tacheExistant.setDescription(tacheDTO.getDescription());
-        tacheExistant.setUtilisateur(utilisateurService.getUtilisateur(tacheDTO.getUtilisateur()));
+        tacheExistant.setUtilisateur(utilisateurMapper.toEntity(utilisateurService.getUtilisateur(tacheDTO.getUtilisateur())));
         tacheExistant.setDateEcheance(tacheDTO.getDateEcheance());
         tacheExistant.setEstTermine(tacheDTO.getEstTermine());
 
@@ -68,7 +71,7 @@ public class TacheService {
     public TacheDTO ajouterTache(TacheDTO tacheDTO) {
         try {
             logger.info("Ajout d'une nouvelle tâche");
-            Utilisateur utilisateur = utilisateurService.getUtilisateur(tacheDTO.getUtilisateur());
+            Utilisateur utilisateur = utilisateurMapper.toEntity(utilisateurService.getUtilisateur(tacheDTO.getUtilisateur()));
             Tache tache = tacheMapper.toEntity(tacheDTO, utilisateur);
             Tache newTache = tacheRepository.save(tache);
             return tacheMapper.toDTO(newTache);

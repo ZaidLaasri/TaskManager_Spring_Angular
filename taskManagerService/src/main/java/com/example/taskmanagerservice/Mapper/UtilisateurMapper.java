@@ -2,10 +2,12 @@ package com.example.taskmanagerservice.Mapper;
 
 import com.example.taskmanagerservice.DTO.UtilisateurDTO;
 import com.example.taskmanagerservice.entity.Utilisateur;
+import org.springframework.stereotype.Component;
 
+@Component
 public class UtilisateurMapper {
 
-    public static UtilisateurDTO toDTO(Utilisateur utilisateur){
+    public  UtilisateurDTO toDTO(Utilisateur utilisateur){
         UtilisateurDTO dto = new UtilisateurDTO();
         dto.setId(utilisateur.getId());
         dto.setNom(utilisateur.getNom());
@@ -15,7 +17,7 @@ public class UtilisateurMapper {
     }
 
 
-    public static Utilisateur toEntity(UtilisateurDTO dto){
+    public  Utilisateur toEntity(UtilisateurDTO dto){
         Utilisateur utilisateur = new Utilisateur();
         utilisateur.setId(dto.getId());
         utilisateur.setNom(dto.getNom());

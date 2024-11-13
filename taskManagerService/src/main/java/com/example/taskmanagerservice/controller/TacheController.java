@@ -1,6 +1,7 @@
 package com.example.taskmanagerservice.controller;
 
 import com.example.taskmanagerservice.DTO.TacheDTO;
+import com.example.taskmanagerservice.Mapper.UtilisateurMapper;
 import com.example.taskmanagerservice.entity.Tache;
 import com.example.taskmanagerservice.entity.Utilisateur;
 import com.example.taskmanagerservice.service.TacheService;
@@ -8,7 +9,6 @@ import com.example.taskmanagerservice.service.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,11 +20,14 @@ public class TacheController {
 
     private final TacheService tacheService;
     private final UtilisateurService utilisateurService;
+    private final UtilisateurMapper utilisateurMapper;
+
 
     @Autowired
-    public TacheController(TacheService tacheService, UtilisateurService utilisateurService){
+    public TacheController(TacheService tacheService, UtilisateurService utilisateurService, UtilisateurMapper utilisateurMapper){
         this.tacheService=tacheService;
         this.utilisateurService=utilisateurService;
+        this.utilisateurMapper = utilisateurMapper;
     }
 
     @GetMapping("/taches")
@@ -59,7 +62,7 @@ public class TacheController {
 
     @GetMapping("/tacheUtilisateur/{id}")
     public ResponseEntity<List<Tache>> getTacheBytilisateur(@PathVariable Long id){
-        Utilisateur utilisateur = utilisateurService.getUtilisateur(id);
+        Utilisateur utilisateur = utilisateurMapper.toEntity(utilisateurService.getUtilisateur(id));
         if(utilisateur==null){
           return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }else {
